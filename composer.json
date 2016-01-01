@@ -12,6 +12,7 @@
     ],
     "require": {
         "pmvc/pmvc": "*",
+        "pmvc-plugin/view": "*",
         "pmvc-plugin/dotenv": "*"
     },
     "minimum-stability": "dev"
