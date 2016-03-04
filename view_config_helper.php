@@ -23,6 +23,6 @@ class view_config_helper extends \PMVC\PlugIn
         $dot = \PMVC\plug('dotenv');
         $view = \PMVC\plug('view');
         $viewConfigs = $dot->getArray('.env.view');
-        \PMVC\Array_Merge($view, $viewConfigs);
+        $view->set($viewConfigs);
    }
 }
