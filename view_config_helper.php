@@ -9,7 +9,7 @@ class view_config_helper extends \PMVC\PlugIn
 {
     public function init()
     {
-        \PMVC\call_plugin(
+        \PMVC\callPlugin(
             'dispatcher',
             'attach',
             array(
