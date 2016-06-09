@@ -35,7 +35,7 @@ class view_config_helper extends \PMVC\PlugIn
         }
         $i18n = \PMVC\getOption('I18N');
         if ($i18n) {
-            $view->set($i18n);
+            $view->set('I18N', $i18n);
         }
    }
 }
