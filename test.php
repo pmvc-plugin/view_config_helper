@@ -1,6 +1,6 @@
 <?php
 PMVC\Load::plug();
-PMVC\addPlugInFolder('../');
+PMVC\addPlugInFolders(['../']);
 class View_config_helperTest extends PHPUnit_Framework_TestCase
 {
     private $_plug = 'view_config_helper';

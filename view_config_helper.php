@@ -5,6 +5,8 @@ namespace PMVC\PlugIn\view_config_helper;
 
 ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\view_config_helper';
 
+\PMVC\initPlugIn(['controller'=>null]);
+
 class view_config_helper extends \PMVC\PlugIn
 {
     public function init()
