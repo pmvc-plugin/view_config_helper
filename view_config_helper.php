@@ -32,10 +32,12 @@ class view_config_helper extends \PMVC\PlugIn
         $globalView = \PMVC\getOption('VIEW');
         if ($globalView) {
             $view->set($globalView);
+            \PMVC\option('set', 'VIEW', null);
         }
         $i18n = \PMVC\getOption('I18N');
         if ($i18n) {
             $view->set('I18N', $i18n);
+            \PMVC\option('set', 'I18N', null);
         }
    }
 }
