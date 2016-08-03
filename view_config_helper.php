@@ -26,7 +26,7 @@ class view_config_helper extends \PMVC\PlugIn
         $view = \PMVC\plug('view');
         $dotView = '.env.view';
         if ($dot->fileExists($dotView)) { 
-            $viewConfigs = $dot->getArray($dotView);
+            $viewConfigs = $dot->getUnderscoreToArray($dotView);
             $view->set($viewConfigs);
         }
         $globalView = \PMVC\getOption('VIEW');
