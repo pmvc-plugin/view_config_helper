@@ -14,10 +14,10 @@ class view_config_helper extends \PMVC\PlugIn
         \PMVC\callPlugin(
             'dispatcher',
             'attach',
-            array(
+            [
                 $this,
                 \PMVC\Event\B4_PROCESS_VIEW 
-            )
+            ]
         );
     }
     
@@ -26,18 +26,18 @@ class view_config_helper extends \PMVC\PlugIn
         $view = \PMVC\plug('view');
         $dotView = '.env.view';
         if ($dot->fileExists($dotView)) { 
-            $viewConfigs = $dot->getUnderscoreToArray($dotView);
-            $view->set($viewConfigs);
+            $configs = $dot->getUnderscoreToArray($dotView);
+        } else { 
+            $configs = [];
         }
         $globalView = \PMVC\getOption('VIEW');
         if ($globalView) {
-            $view->set($globalView);
+            $configs = array_replace_recursive($configs, $globalView);
             \PMVC\option('set', 'VIEW', null);
         }
-        $i18n = \PMVC\getOption('I18N');
-        if ($i18n) {
-            $view->set('I18N', $i18n);
-            \PMVC\option('set', 'I18N', null);
-        }
+        $i18n = \PMVC\getOption('I18N',[]);
+        $configs = array_replace_recursive($configs, ['I18N'=>$i18n]);
+        \PMVC\option('set', 'I18N', null);
+        $view->set($configs);
    }
 }
