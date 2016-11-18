@@ -24,9 +24,8 @@ class View_config_helperTest extends PHPUnit_Framework_TestCase
     function testCallback()
     {
         $p = \PMVC\plug($this->_plug, [
-            'callback'=>function($config){
+            'callback'=>function(&$config){
                 $config['test'] = 'test'; 
-                return $config;
             }
         ]);
         $p->onB4ProcessView();

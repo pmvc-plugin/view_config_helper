@@ -41,7 +41,7 @@ class view_config_helper extends \PMVC\PlugIn
         $configs = array_replace_recursive($configs, ['I18N'=>$i18n]);
         \PMVC\option('set', 'I18N', null);
         if ($this['callback']) {
-            $configs = $this['callback']($configs);
+            $this['callback']($configs);
         }
         $view->set($configs);
    }
