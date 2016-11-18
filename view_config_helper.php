@@ -1,12 +1,13 @@
 <?php
 namespace PMVC\PlugIn\view_config_helper;
 
-// \PMVC\l(__DIR__.'/xxx.php');
-
 ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\view_config_helper';
 
 \PMVC\initPlugIn(['controller'=>null]);
 
+/**
+ * @parameters funciton callback 
+ */
 class view_config_helper extends \PMVC\PlugIn
 {
     public function init()
@@ -21,7 +22,8 @@ class view_config_helper extends \PMVC\PlugIn
         );
     }
     
-   public function onB4ProcessView() {
+   public function onB4ProcessView()
+   {
         $dot = \PMVC\plug('dotenv');
         $view = \PMVC\plug('view');
         $dotView = '.env.view';
@@ -38,6 +40,9 @@ class view_config_helper extends \PMVC\PlugIn
         $i18n = \PMVC\getOption('I18N',[]);
         $configs = array_replace_recursive($configs, ['I18N'=>$i18n]);
         \PMVC\option('set', 'I18N', null);
+        if ($this['callback']) {
+            $configs = $this['callback']($configs);
+        }
         $view->set($configs);
    }
 }
