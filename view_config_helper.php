@@ -6,7 +6,8 @@ ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\view_config_helper';
 \PMVC\initPlugIn(['controller'=>null]);
 
 /**
- * @parameters funciton callback 
+ * @parameters funciton callback
+ * @parameters funciton .env
  */
 class view_config_helper extends \PMVC\PlugIn
 {
@@ -26,20 +27,24 @@ class view_config_helper extends \PMVC\PlugIn
    {
         $dot = \PMVC\plug('dotenv');
         $view = \PMVC\plug('view');
-        $dotView = '.env.view';
-        if ($dot->fileExists($dotView)) { 
-            $configs = $dot->getUnderscoreToArray($dotView);
-        } else { 
-            $configs = [];
-        }
+        $configs = [];
         $globalView = \PMVC\getOption('VIEW');
         if ($globalView) {
             $configs = array_replace_recursive($configs, $globalView);
             \PMVC\option('set', 'VIEW', null);
         }
-        $i18n = \PMVC\getOption('I18N',[]);
-        $configs = array_replace_recursive($configs, ['I18N'=>$i18n]);
-        \PMVC\option('set', 'I18N', null);
+        $i18n = \PMVC\getOption('I18N');
+        if ($i18n) {
+            $configs = array_replace_recursive($configs, ['I18N'=>$i18n]);
+            \PMVC\option('set', 'I18N', null);
+        }
+        $dotView = \PMVC\value($this,['.env'],'.env.view');
+        if ($dot->fileExists($dotView)) {
+            $configs = array_replace_recursive(
+                $configs,
+                $dot->getUnderscoreToArray($dotView)
+            );
+        }
         if ($this['callback']) {
             $this['callback']($configs);
         }
