@@ -22,11 +22,10 @@ class view_config_helper extends \PMVC\PlugIn
             ]
         );
     }
-    
-   public function onB4ProcessView()
+
+   public function &getAllViewConfigs()
    {
         $dot = \PMVC\plug('dotenv');
-        $view = \PMVC\plug('view');
         $configs = [];
         $globalView = \PMVC\getOption('VIEW');
         if ($globalView) {
@@ -48,6 +47,13 @@ class view_config_helper extends \PMVC\PlugIn
         if ($this['callback']) {
             $this['callback']($configs);
         }
+        return $configs;
+   }
+    
+   public function onB4ProcessView()
+   {
+        $configs =& $this->getAllViewConfigs();
+        $view = \PMVC\plug('view');
         $view->set($configs);
    }
 }
