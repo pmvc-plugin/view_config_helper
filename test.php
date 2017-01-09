@@ -28,13 +28,20 @@ class View_config_helperTest extends PHPUnit_Framework_TestCase
                 $config['test'] = 'test'; 
             }
         ]);
-        $p->onB4ProcessView();
+        $p->onB4ProcessView(new FakeSubject());
         $view = \PMVC\plug('view');
         $this->assertEquals($view->get('test'), 'test');
     }
 
 }
 
+class FakeSubject
+{
+    function detach()
+    {
+
+    }
+}
 
 class FakeTemplate extends \PMVC\PlugIn\view\ViewEngine
 {

@@ -50,8 +50,9 @@ class view_config_helper extends \PMVC\PlugIn
         return $configs;
    }
     
-   public function onB4ProcessView()
+   public function onB4ProcessView($subject)
    {
+        $subject->detach($this);
         $configs =& $this->getAllViewConfigs();
         $view = \PMVC\plug('view');
         $view->set($configs);
