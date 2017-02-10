@@ -11,6 +11,8 @@ ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\view_config_helper';
  */
 class view_config_helper extends \PMVC\PlugIn
 {
+    private $_isSet = false;
+
     public function init()
     {
         \PMVC\callPlugin(
@@ -49,12 +51,23 @@ class view_config_helper extends \PMVC\PlugIn
         }
         return $configs;
    }
-    
+
+   public function toView()
+   {
+        $view = \PMVC\plug('view');
+        if ($this->_isSet) {
+           $configs = $view->getRef(); 
+           return $configs;
+        }
+        $this->_isSet = true;
+        $configs =& $this->getAllViewConfigs();
+        $view->set($configs);
+        return $view->getRef();
+   }
+
    public function onB4ProcessView($subject)
    {
         $subject->detach($this);
-        $configs =& $this->getAllViewConfigs();
-        $view = \PMVC\plug('view');
-        $view->set($configs);
+        $this->toView();
    }
 }
