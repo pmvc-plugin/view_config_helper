@@ -12,6 +12,7 @@ ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\view_config_helper';
 class view_config_helper extends \PMVC\PlugIn
 {
     private $_isSet = false;
+    private $_configs;
 
     public function init()
     {
@@ -71,6 +72,12 @@ class view_config_helper extends \PMVC\PlugIn
 
    public function toView()
    {
+        if ($this['getConfigOnly']) {
+            if (empty($this->_configs)) {
+                $this->_configs =& $this->getAllViewConfigs();
+            }
+            return $this->_configs;
+        }
         $view = \PMVC\plug('view');
         if ($this->_isSet) {
            $configs = $view->getRef(); 
