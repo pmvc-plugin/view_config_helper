@@ -86,6 +86,9 @@ class view_config_helper extends \PMVC\PlugIn
         $this->_isSet = true;
         $configs =& $this->getAllViewConfigs();
         $view->set($configs);
+        if (empty($view->get('htmlTitle'))) {
+            $view->set('htmlTitle', \PMVC\value($configs, ['I18N', 'htmlTitle']));
+        }
         return $view->getRef();
    }
 
