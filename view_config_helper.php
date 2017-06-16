@@ -11,7 +11,6 @@ ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\view_config_helper';
  */
 class view_config_helper extends \PMVC\PlugIn
 {
-    private $_isSet = false;
     private $_configs;
 
     public function init()
@@ -72,24 +71,21 @@ class view_config_helper extends \PMVC\PlugIn
 
    public function toView()
    {
-        if ($this['getConfigOnly']) {
-            if (empty($this->_configs)) {
-                $this->_configs =& $this->getAllViewConfigs();
-            }
+        if (!empty($this->_configs)) {
             return $this->_configs;
         }
-        $view = \PMVC\plug('view');
-        if ($this->_isSet) {
-           $configs = $view->getRef(); 
-           return $configs;
+        $this->_configs =& $this->getAllViewConfigs();
+        if (!$this['getConfigOnly']) {
+            $view = \PMVC\plug('view');
+            $view->set($this->_configs);
+            if (empty($view->get('htmlTitle'))) {
+                $view->set(
+                    'htmlTitle',
+                    \PMVC\value($this->_configs, ['I18N', 'htmlTitle'])
+                );
+            }
         }
-        $this->_isSet = true;
-        $configs =& $this->getAllViewConfigs();
-        $view->set($configs);
-        if (empty($view->get('htmlTitle'))) {
-            $view->set('htmlTitle', \PMVC\value($configs, ['I18N', 'htmlTitle']));
-        }
-        return $view->getRef();
+        return $this->_configs;
    }
 
    public function onB4ProcessView($subject)
