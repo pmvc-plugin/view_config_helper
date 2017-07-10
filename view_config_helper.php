@@ -75,7 +75,9 @@ class view_config_helper extends \PMVC\PlugIn
             return $this->_configs;
         }
         $this->_configs =& $this->getAllViewConfigs();
-        if (!$this['getConfigOnly']) {
+        if (!$this['getConfigOnly'] &&
+            \PMVC\getOption(_VIEW_ENGINE) !== 'json'
+        ) {
             $view = \PMVC\plug('view');
             $view->set($this->_configs);
             if (empty($view->get('htmlTitle'))) {
@@ -91,6 +93,9 @@ class view_config_helper extends \PMVC\PlugIn
    public function onB4ProcessView($subject)
    {
         $subject->detach($this);
+        if (\PMVC\getOption(_VIEW_ENGINE) === 'json') {
+            return;
+        }
         $this->toView();
    }
 }
