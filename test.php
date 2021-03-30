@@ -28,7 +28,7 @@ class View_config_helperTest extends PHPUnit_Framework_TestCase
                 $config['test'] = 'test'; 
             }
         ]);
-        $p->onB4ProcessHeader(new FakeSubject());
+        $p->onWillProcessHeader(new FakeSubject());
         $view = \PMVC\plug('view');
         $this->assertEquals($view->get('test'), 'test');
     }

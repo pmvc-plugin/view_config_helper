@@ -20,7 +20,7 @@ class view_config_helper extends \PMVC\PlugIn
             'attach',
             [
                 $this,
-                \PMVC\Event\B4_PROCESS_HEADER
+                \PMVC\Event\WILL_PROCESS_HEADER
             ]
         );
     }
@@ -90,7 +90,7 @@ class view_config_helper extends \PMVC\PlugIn
         return $this->_configs;
    }
 
-   public function onB4ProcessHeader($subject)
+   public function onWillProcessHeader($subject)
    {
         $subject->detach($this);
         if (\PMVC\getOption(_VIEW_ENGINE) === 'json') {
